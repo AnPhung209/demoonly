@@ -6,7 +6,6 @@ from langchain_core.messages import HumanMessage, AIMessage
 from core_app.models import Conversation, InternalKnowledge
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from core_app.chat_service.AgentCreator import run_chatbot, AgentCreator
-from core_app.extract import extract
 
 def load_llm_model(provider="google"):
     if provider == "google":

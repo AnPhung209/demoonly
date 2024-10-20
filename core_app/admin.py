@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core_app.models import Conversation, SystemPrompt, ExternalKnowledge, Agent, AgentTool, InternalKnowledge
+from core_app.models import Conversation, SystemPrompt, ExternalKnowledge, Agent, AgentTool
 # Register your models here.
 
 admin.site.register(Conversation)

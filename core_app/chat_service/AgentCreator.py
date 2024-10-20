@@ -5,7 +5,7 @@ from ca_vntl_helper import error_tracking_decorator
 import os
 from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from .agent_tool import tool_mapping
-from core_app.models import ExternalKnowledge
+
 class AgentCreator:
     def __init__(self, agent_name: str, llm_type: str, prompt_content: str, tools: list[str]):
         self.agent_name = agent_name

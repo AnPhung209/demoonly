@@ -1,8 +1,7 @@
-from core_app.models import InternalKnowledge, ExternalKnowledge, Conversation
-from langchain_community.tools import WikipediaQueryRun, tool, DuckDuckGoSearchRun
+from core_app.models import ExternalKnowledge, Conversation
+from langchain_community.tools import tool
 from langchain_community.utilities import WikipediaAPIWrapper
 from langchain.pydantic_v1 import BaseModel, Field
-import requests
 from pgvector.django import CosineDistance
 from core_app.embedding.embedding_by_openai import get_vector_from_embedding
 from venv import logger
