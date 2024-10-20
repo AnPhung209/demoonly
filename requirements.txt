@@ -1,9 +1,7 @@
-Django==4.2
+Django==3.2
 python-dotenv
 djangorestframework
 psycopg2-binary
-ca-vntl-helper==1.1.6
-wikipedia
 openai
 langchain
 psycopg2
@@ -16,4 +14,4 @@ drf-yasg
 python-dotenv
 setuptools
 pgvector
-duckduckgo-search
+ca-vntl-helper

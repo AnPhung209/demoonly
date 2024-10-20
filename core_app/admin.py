@@ -4,7 +4,6 @@ from core_app.models import Conversation, SystemPrompt, ExternalKnowledge, Agent
 
 admin.site.register(Conversation)
 admin.site.register(SystemPrompt)
-admin.site.register(InternalKnowledge)
 admin.site.register(ExternalKnowledge)
 admin.site.register(Agent)
 admin.site.register(AgentTool)
