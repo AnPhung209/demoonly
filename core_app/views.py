@@ -1,16 +1,12 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .models import Conversation, SystemPrompt, ExternalKnowledge, InternalKnowledge, Agent, AgentTool
+from .models import Conversation, SystemPrompt, ExternalKnowledge, Agent, AgentTool
 from .serializers import ConversationSerializer, SystemPromptSerializer, ExternalKnowledgeSerializer, AgentSerializer, AgentToolSerializer
 from core_app.chat_service.AgentMessage import get_message_from_agent, get_streaming_agent_instance
-from core_app.extract import extract
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.http import StreamingHttpResponse
 from asgiref.sync import sync_to_async
-from langchain.agents import AgentExecutor
-import asyncio
-
 
 # Create CRUD API views here with Conversation models
 class ConversationListCreate(generics.ListCreateAPIView):

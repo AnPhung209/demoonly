@@ -3,7 +3,7 @@ import os
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage
-from core_app.models import Conversation, InternalKnowledge
+from core_app.models import Conversation
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from core_app.chat_service.AgentCreator import run_chatbot, AgentCreator
 
@@ -14,7 +14,7 @@ def load_llm_model(provider="google"):
 
     elif provider == "openai":
         OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-        llm = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-3.5-turbo", streaming=True, callbacks=[StreamingStdOutCallbackHandler()])
+        llm = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-4o-mini", streaming=True, callbacks=[StreamingStdOutCallbackHandler()])
     else:
         raise Exception("Provider not supported")
     return llm
@@ -64,7 +64,7 @@ def get_message_from_agent(conversation_id, user_message):
         user_message, chat_history, agent_role=role, llm_type=llm, prompt_content=prompt_content, user_tools=user_tools)
     # Update History
     conversation_instance.chat_history.append({"message_type": "human_message", "content": user_message})
-    conversation_instance.chat_history.append({"message_type": "ai_message", "content": response})
+    conversation_instance.chat_history.append({"message_type": "ai_message", "content": output_message})
 
     conversation_instance.save()
     

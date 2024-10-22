@@ -18,7 +18,9 @@ def update_content_embedding(sender, instance, **kwargs):
             text_content = instance.content
             embedding = get_vector_from_embedding(text_content)
             instance.content_embedding = embedding
-
+        if instance.title:
+            subject_embedding = get_vector_from_embedding(instance.title)
+            instance.title_embedding = subject_embedding   
     # Save the instance and avoid recursion
     try:
         updating_embedding = True

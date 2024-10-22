@@ -59,11 +59,12 @@ class Conversation(CommonModel):
 
 class ExternalKnowledge(CommonModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100, null=True)
     content = models.TextField()
+    title_embedding = VectorField(dimensions=1536, default=empty_vector)
     content_embedding = VectorField(dimensions=1536, default=empty_vector)
 
-
     def __str__(self):
-        return f"{self.content}"
+        return f"{self.title}"
 
 

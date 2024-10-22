@@ -54,5 +54,4 @@ urlpatterns = [
 
     path("streaming/", agent_answer_message_stream, name="agent-answer-message-stream"),
     path("answer/", agent_answer_message, name="agent-answer-message"),
-    path("swagger/", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

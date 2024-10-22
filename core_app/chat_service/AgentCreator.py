@@ -5,6 +5,7 @@ from ca_vntl_helper import error_tracking_decorator
 import os
 from langchain_core.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from .agent_tool import tool_mapping
+from core_app.models import ExternalKnowledge
 
 class AgentCreator:
     def __init__(self, agent_name: str, llm_type: str, prompt_content: str, tools: list[str]):
@@ -13,18 +14,12 @@ class AgentCreator:
         self.prompt_content = prompt_content
         self.tools_str = tools
 
+        lecture_qs = ExternalKnowledge.objects.all()
 
         self.hidden_prompt = f"""
-                # OBJECTIVE #
-                Don't make your own answer up. \n
-                You can use the 'query_external_knowledge' tool to get the information from the external knowledge table.\n
-                Please strictly follow the format below to answer the question \n
-                ###########################
-                # ANSWER FORMAT #
-                Question: user's question
-                Actual answer: (Write the main content here)
-                ###########################
-        """
+                Don't make things up. \n
+                You always use the 'external_content_search' tool to get the information from the external knowledge table and answer the question.\n
+                """
 
     def load_tools(self):
         tools = []
@@ -35,14 +30,14 @@ class AgentCreator:
     def load_llm(self):
         if self.llm_type == "openai":
             OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-            llm = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-3.5-turbo", streaming=True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0 )
+            llm = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-4o-mini", streaming=True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0 )
         else:
             raise Exception("LLM type not supported")
         return llm
 
     def create_system_prompt_template(self):
 
-        system_prompt_content = self.prompt_content + "\n following the format below to generate the output. Remember: Always follow format, no matter what happens.\n" + self.hidden_prompt
+        system_prompt_content = self.prompt_content + "\n following the format below to generate the output\n" + self.hidden_prompt
 
         system_prompt = ChatPromptTemplate.from_messages(
             [
