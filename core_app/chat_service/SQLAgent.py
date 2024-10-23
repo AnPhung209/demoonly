@@ -32,7 +32,13 @@ class SQLAgent:
 
             The "noun_columns" field should contain only the columns that are relevant to the question and contain nouns or names, for example, the column "Artist name" contains nouns relevant to the question "What are the top selling artists?", but the column "Artist ID" is not relevant because it does not contain a noun. Do not include columns that contain numbers.
             '''),
-            ("human", "===Database schema:\n{schema}\n\n===User question:\n{question}\n\nIdentify relevant tables and columns:")
+            ("human", '''===Database schema:
+            {schema}
+             
+            ===User question:
+            {question}
+             
+            Identify relevant tables and columns:''')
         ])
 
         output_parser = JsonOutputParser()
@@ -97,7 +103,6 @@ class SQLAgent:
             or 
             [[label, x, y]]
                         
-            For questions like "plot a distribution of the fares for men and women", count the frequency of each fare and plot it. The x axis should be the fare and the y axis should be the count of people who paid that fare.
             SKIP ALL ROWS WHERE ANY COLUMN IS NULL or "N/A" or "".
             Just give the query string. Do not format it. Make sure to use the correct spellings of nouns as provided in the unique nouns list. All the table and column names should be enclosed in backticks.
             '''),
@@ -134,52 +139,52 @@ class SQLAgent:
 
         prompt = ChatPromptTemplate.from_messages([
             ("system", '''
-        You are an AI assistant that validates and fixes SQL queries. Your task is to:
-        1. Check if the SQL query is valid.
-        2. Ensure all table and column names are correctly spelled and exist in the schema. All the table and column names should be enclosed in backticks.
-        3. If there are any issues, fix them and provide the corrected SQL query.
-        4. If no issues are found, return the original query.
+            You are an AI assistant that validates and fixes SQL queries. Your task is to:
+            1. Check if the SQL query is valid.
+            2. Ensure all table and column names are correctly spelled and exist in the schema. All the table and column names should be enclosed in backticks.
+            3. If there are any issues, fix them and provide the corrected SQL query.
+            4. If no issues are found, return the original query.
 
-        Respond in JSON format with the following structure. Only respond with the JSON:
-        {{
-            "valid": boolean,
-            "issues": string or null,
-            "corrected_query": string
-        }}
-        '''),
-                    ("human", '''===Database schema:
-        {schema}
+            Respond in JSON format with the following structure. Only respond with the JSON:
+                {{
+                "valid": boolean,
+                "issues": string or null,
+                "corrected_query": string
+                }}
+            '''),
+            ("human", '''===Database schema:
+                        {schema}
 
-        ===Generated SQL query:
-        {sql_query}
+                        ===Generated SQL query:
+                        {sql_query}
 
-        Respond in JSON format with the following structure. Only respond with the JSON:
-        {{
-            "valid": boolean,
-            "issues": string or null,
-            "corrected_query": string
-        }}
+            Respond in JSON format with the following structure. Only respond with the JSON:
+            {{
+                "valid": boolean,
+                "issues": string or null,
+                "corrected_query": string
+            }}
 
-        For example:
-        1. {{
-            "valid": true,
-            "issues": null,
-            "corrected_query": "None"
-        }}
-                    
-        2. {{
-            "valid": false,
-            "issues": "Column USERS does not exist",
-            "corrected_query": "SELECT * FROM \`users\` WHERE age > 25"
-        }}
+            For example:
+            1. {{
+                "valid": true,
+                "issues": null,
+                "corrected_query": "None"
+                }}
+                        
+            2. {{
+                "valid": false,
+                "issues": "Column USERS does not exist",
+                "corrected_query": "SELECT * FROM \`users\` WHERE age > 25"
+            }}
 
-        3. {{
-            "valid": false,
-            "issues": "Column names and table names should be enclosed in backticks if they contain spaces or special characters",
-            "corrected_query": "SELECT * FROM \`gross income\` WHERE \`age\` > 25"
-        }}
-                    
-        '''),
+            3. {{
+                "valid": false,
+                "issues": "Column names and table names should be enclosed in backticks if they contain spaces or special characters",
+                "corrected_query": "SELECT * FROM \`gross income\` WHERE \`age\` > 25"
+            }}
+                        
+            '''),
                 ])
 
         output_parser = JsonOutputParser()
@@ -219,7 +224,14 @@ class SQLAgent:
 
         prompt = ChatPromptTemplate.from_messages([
             ("system", "You are an AI assistant that formats database query results into a human-readable response. Give a conclusion to the user's question based on the query results. Do not give the answer in markdown format. Only give the answer in one line."),
-            ("human", "User question: {question}\n\nQuery results: {results}\n\nFormatted response:"),
+            ("human", '''User question: 
+                {question}
+                
+                Query results: 
+                {results}
+                
+                Formatted response:"
+            '''),
         ])
 
         response = self.llm_manager.invoke(prompt, question=question, results=results)
