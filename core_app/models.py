@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from pgvector.django import VectorField
 from django.utils import timezone
-
+from import_export import resources
 # Create your models here.
 
 # create a array that have dimension of 1536
@@ -67,4 +67,8 @@ class ExternalKnowledge(CommonModel):
     def __str__(self):
         return f"{self.title}"
 
+class Product(CommonModel):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2) 
+    quantity = models.IntegerField()
 

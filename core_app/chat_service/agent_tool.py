@@ -1,6 +1,6 @@
 from core_app.models import ExternalKnowledge
 from langchain_community.tools import tool
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from pgvector.django import CosineDistance
 from core_app.embedding.embedding_by_openai import get_vector_from_embedding
 from venv import logger

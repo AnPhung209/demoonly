@@ -15,3 +15,5 @@ python-dotenv
 setuptools
 pgvector
 ca-vntl-helper
+langgraph
+django-import-export
